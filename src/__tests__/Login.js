@@ -6,6 +6,9 @@ import LoginUI from "../views/LoginUI";
 import Login from "../containers/Login.js";
 import { ROUTES } from "../constants/routes";
 import { fireEvent, screen } from "@testing-library/dom";
+import BillsUI from "../views/BillsUI.js";
+import { bills } from "../fixtures/bills.js"
+
 
 describe("Given that I am a user on login page", () => {
   describe("When I do not fill fields and I click on employee button Login In", () => {
@@ -158,27 +161,25 @@ describe("Given that I am a user on login page", () => {
     });
   });
 
-  describe("When I do fill fields in correct format and I click on admin button Login In", () => {
-    test("Then I should be identified as an HR admin in app", () => {
+  describe("When I do fill fields in correct format and I click on employee button Login In", () => {
+    test("Then I should be identified as an Employee in app", () => {
       document.body.innerHTML = LoginUI();
       const inputData = {
-        type: "Admin",
         email: "johndoe@email.com",
         password: "azerty",
-        status: "connected",
       };
 
-      const inputEmailUser = screen.getByTestId("admin-email-input");
+      const inputEmailUser = screen.getByTestId("employee-email-input");
       fireEvent.change(inputEmailUser, { target: { value: inputData.email } });
       expect(inputEmailUser.value).toBe(inputData.email);
 
-      const inputPasswordUser = screen.getByTestId("admin-password-input");
+      const inputPasswordUser = screen.getByTestId("employee-password-input");
       fireEvent.change(inputPasswordUser, {
         target: { value: inputData.password },
       });
       expect(inputPasswordUser.value).toBe(inputData.password);
 
-      const form = screen.getByTestId("form-admin");
+      const form = screen.getByTestId("form-employee");
 
       // localStorage should be populated with form data
       Object.defineProperty(window, "localStorage", {
@@ -206,25 +207,26 @@ describe("Given that I am a user on login page", () => {
         store,
       });
 
-      const handleSubmit = jest.fn(login.handleSubmitAdmin);
+      const handleSubmit = jest.fn(login.handleSubmitEmployee);
       login.login = jest.fn().mockResolvedValue({});
       form.addEventListener("submit", handleSubmit);
       fireEvent.submit(form);
       expect(handleSubmit).toHaveBeenCalled();
       expect(window.localStorage.setItem).toHaveBeenCalled();
       expect(window.localStorage.setItem).toHaveBeenCalledWith(
-        "user",
-        JSON.stringify({
-          type: "Admin",
-          email: inputData.email,
-          password: inputData.password,
-          status: "connected",
-        })
+          "user",
+          JSON.stringify({
+            type: "Employee",
+            email: inputData.email,
+            password: inputData.password,
+            status: "connected",
+          })
       );
     });
 
-    test("It should renders HR dashboard page", () => {
-      expect(screen.queryByText("Validations")).toBeTruthy();
+    test("It should renders Bills page", () => {
+      document.body.innerHTML = BillsUI({ data: bills });
+      expect(screen.getAllByText("Mes notes de frais")).toBeTruthy()
     });
   });
 });
