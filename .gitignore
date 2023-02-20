@@ -1,0 +1,7 @@
+node_modules/
+.DS_store
+.idea
+babel.config.cjs
+setup-jest.js
+src/assets/images
+src/assets/svg
