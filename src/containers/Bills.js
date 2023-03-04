@@ -2,7 +2,7 @@ import { ROUTES_PATH } from '../constants/routes.js'
 import { formatDate, formatStatus } from "../app/format.js"
 import Logout from "./Logout.js"
 
-export default class {
+export default class Bills {
   constructor({ document, onNavigate, store, localStorage }) {
     this.document = document
     this.onNavigate = onNavigate
@@ -14,6 +14,7 @@ export default class {
       icon.addEventListener('click', () => this.handleClickIconEye(icon))
     })
     new Logout({ document, localStorage, onNavigate })
+    this.$modalFile =  $('#modaleFile')
   }
 
   handleClickNewBill = () => {
@@ -21,10 +22,11 @@ export default class {
   }
 
   handleClickIconEye = (icon) => {
+    const selector =  this.$modalFile
     const billUrl = icon.getAttribute("data-bill-url")
-    const imgWidth = Math.floor($('#modaleFile').width() * 0.5)
-    $('#modaleFile').find(".modal-body").html(`<div style='text-align: center;' class="bill-proof-container"><img width=${imgWidth} src=${billUrl} alt="Bill" /></div>`)
-    $('#modaleFile').modal('show')
+    const imgWidth = Math.floor(selector.width() * 0.5)
+    selector.find(".modal-body").html(`<div style='text-align: center;' class="bill-proof-container"><img width=${imgWidth} src=${billUrl} alt="Bill" /></div>`)
+    selector.modal('show')
   }
 
   getBills = () => {

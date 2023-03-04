@@ -75,17 +75,21 @@ describe('Given I am connected as an Admin', () => {
       icon1.addEventListener('click', handleShowTickets1)
       userEvent.click(icon1)
       expect(handleShowTickets1).toHaveBeenCalled()
+
       await waitFor(() => screen.getByTestId(`open-bill47qAXb6fIm2zOKkLzMro`) )
       expect(screen.getByTestId(`open-bill47qAXb6fIm2zOKkLzMro`)).toBeTruthy()
+
       icon2.addEventListener('click', handleShowTickets2)
       userEvent.click(icon2)
       expect(handleShowTickets2).toHaveBeenCalled()
+
       await waitFor(() => screen.getByTestId(`open-billUIUZtnPQvnbFnB0ozvJh`) )
       expect(screen.getByTestId(`open-billUIUZtnPQvnbFnB0ozvJh`)).toBeTruthy()
 
       icon3.addEventListener('click', handleShowTickets3)
       userEvent.click(icon3)
       expect(handleShowTickets3).toHaveBeenCalled()
+
       await waitFor(() => screen.getByTestId(`open-billBeKy5Mo4jkmdfPGYpTxZ`) )
       expect(screen.getByTestId(`open-billBeKy5Mo4jkmdfPGYpTxZ`)).toBeTruthy()
     })
@@ -303,7 +307,6 @@ describe("Given I am a user connected as Admin", () => {
       expect(message).toBeTruthy()
     })
   })
-
   })
 })
 

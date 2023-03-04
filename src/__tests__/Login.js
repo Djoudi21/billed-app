@@ -8,8 +8,9 @@ import { ROUTES } from "../constants/routes";
 import { fireEvent, screen } from "@testing-library/dom";
 import BillsUI from "../views/BillsUI.js";
 import { bills } from "../fixtures/bills.js"
+import DashboardUI from "../views/DashboardUI.js";
 
-
+//Employee tests
 describe("Given that I am a user on login page", () => {
   describe("When I do not fill fields and I click on employee button Login In", () => {
     test("Then It should renders Login page", () => {
@@ -55,8 +56,10 @@ describe("Given that I am a user on login page", () => {
     test("Then I should be identified as an Employee in app", () => {
       document.body.innerHTML = LoginUI();
       const inputData = {
+        type:"Employee",
         email: "johndoe@email.com",
         password: "azerty",
+        status: "connected"
       };
 
       const inputEmailUser = screen.getByTestId("employee-email-input");
@@ -120,6 +123,7 @@ describe("Given that I am a user on login page", () => {
   });
 });
 
+//Admin tests
 describe("Given that I am a user on login page", () => {
   describe("When I do not fill fields and I click on admin button Login In", () => {
     test("Then It should renders Login page", () => {
@@ -161,25 +165,27 @@ describe("Given that I am a user on login page", () => {
     });
   });
 
-  describe("When I do fill fields in correct format and I click on employee button Login In", () => {
-    test("Then I should be identified as an Employee in app", () => {
+  describe("When I do fill fields in correct format and I click on admin button Login In", () => {
+    test("Then I should be identified as an Admin in app", () => {
       document.body.innerHTML = LoginUI();
       const inputData = {
+        type: "Admin",
         email: "johndoe@email.com",
         password: "azerty",
+        status: "connected"
       };
 
-      const inputEmailUser = screen.getByTestId("employee-email-input");
+      const inputEmailUser = screen.getByTestId("admin-email-input");
       fireEvent.change(inputEmailUser, { target: { value: inputData.email } });
       expect(inputEmailUser.value).toBe(inputData.email);
 
-      const inputPasswordUser = screen.getByTestId("employee-password-input");
+      const inputPasswordUser = screen.getByTestId("admin-password-input");
       fireEvent.change(inputPasswordUser, {
         target: { value: inputData.password },
       });
       expect(inputPasswordUser.value).toBe(inputData.password);
 
-      const form = screen.getByTestId("form-employee");
+      const form = screen.getByTestId("form-admin");
 
       // localStorage should be populated with form data
       Object.defineProperty(window, "localStorage", {
@@ -207,7 +213,7 @@ describe("Given that I am a user on login page", () => {
         store,
       });
 
-      const handleSubmit = jest.fn(login.handleSubmitEmployee);
+      const handleSubmit = jest.fn(login.handleSubmitAdmin);
       login.login = jest.fn().mockResolvedValue({});
       form.addEventListener("submit", handleSubmit);
       fireEvent.submit(form);
@@ -216,7 +222,7 @@ describe("Given that I am a user on login page", () => {
       expect(window.localStorage.setItem).toHaveBeenCalledWith(
           "user",
           JSON.stringify({
-            type: "Employee",
+            type: "Admin",
             email: inputData.email,
             password: inputData.password,
             status: "connected",
@@ -224,9 +230,9 @@ describe("Given that I am a user on login page", () => {
       );
     });
 
-    test("It should renders Bills page", () => {
-      document.body.innerHTML = BillsUI({ data: bills });
-      expect(screen.getAllByText("Mes notes de frais")).toBeTruthy()
+    test("It should renders Dashboard page", () => {
+      document.body.innerHTML = DashboardUI({ data: bills });
+      expect(screen.getAllByText("Validations")).toBeTruthy()
     });
   });
 });
