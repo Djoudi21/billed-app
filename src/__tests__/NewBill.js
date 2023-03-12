@@ -71,14 +71,15 @@ describe("Given I am connected as an employee", () => {
         const form  = screen.getByTestId('form-new-bill')
         //allows mocking the handleClickNewBill function
         const handleSubmitNewBill = jest.fn((e) => newBillEntity.handleSubmit(e))
+        // add event listener
         form.addEventListener('submit', handleSubmitNewBill)
+        // trigger event
         userEvent.click(button)
-        console.log(document.body.innerHTML)
         expect(document.body.innerHTML).toContain("Mes notes de frais")
       })
     })
     describe("When I click on input file", () => {
-      test("Then function should be called", () => {
+      test("Then functions should be called", () => {
         const onNavigate = (pathname) => {
           document.body.innerHTML = ROUTES({ pathname })
         }
@@ -95,9 +96,11 @@ describe("Given I am connected as an employee", () => {
         //allows mocking the handleClickNewBill function
         //mockImplementation allows not to use the real function
         const handleChangeFile = jest.fn((e) => newBillEntity.handleChangeFile(e))
-        //form.addEventListener('submit', handleChangeFile)
+        // add event listener
+        inputFile.addEventListener('change', handleChangeFile)
+        // trigger event
         fireEvent.change(inputFile)
-        //expect(handleChangeFile).toHaveBeenCalled()
+        expect(handleChangeFile).toHaveBeenCalled()
       })
     })
   })
