@@ -17,7 +17,6 @@ export default class NewBill {
   }
 
   handleChangeFile = e => {
-    console.log('ici')
     e.preventDefault()
     const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
     const filePath = e.target.value.split(/\\/g)
@@ -27,6 +26,7 @@ export default class NewBill {
     formData.append('file', file)
     formData.append('email', email)
     const extension = filePath[filePath.length -1].split('.')[1]
+
     if( extension === 'jpg' || extension === 'jpeg' || extension === 'png') {
       this.store
           .bills()
@@ -61,12 +61,12 @@ export default class NewBill {
       fileName: this.fileName,
       status: 'pending'
     }
-    this.updateBill(bill)
+    //this.updateBill(bill)
     this.onNavigate(ROUTES_PATH['Bills'])
   }
 
   // not need to cover this function by tests
-  updateBill = (bill) => {
+ /* updateBill = (bill) => {
     if (this.store) {
       this.store
       .bills()
@@ -76,5 +76,5 @@ export default class NewBill {
       })
       .catch(error => console.error(error))
     }
-  }
+  }*/
 }

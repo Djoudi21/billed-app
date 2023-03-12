@@ -24,8 +24,6 @@ export default class Login {
       status: "connected"
     }
     this.localStorage.setItem("user", JSON.stringify(user))
-    console.log('TUTU', user)
-
     this.login(user)
       .catch(
         (err) => this.createUser(user)
@@ -52,8 +50,6 @@ export default class Login {
       status: "connected"
     }
     this.localStorage.setItem("user", JSON.stringify(user))
-    console.log('TUTU', user)
-
     this.login(user)
       .catch(
         (err) => this.createUser(user)
